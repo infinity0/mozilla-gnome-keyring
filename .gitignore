@@ -1,5 +1,2 @@
-/xpi
-/mozilla-gnome-keyring-*.xpi
-/libgnomekeyring.so
-/xpcom_abi
-/config.vars
+bin
+*~
