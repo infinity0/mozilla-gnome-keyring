@@ -6,17 +6,8 @@ gbp:
 	  --git-pbuilder '-I.*' '-i.git\|.cproject\|.project\|.settings' --git-dist=experimental
 .PHONY: gbp
 
-DPKG_EXPORT_BUILDFLAGS = 1
-include /usr/share/dpkg/buildflags.mk
+%:
+	dh $@ --with xul-ext
 
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/mozilla-devscripts/xpi.mk
-
-export VERSION=$(DEB_UPSTREAM_VERSION)
-
-# Use this when #688438 is fixed, and get rid of Makefile.combined
-#MOZ_XPI_BUILD_COMMAND = make
-#MOZ_XPI_CLEAN_COMMAND = make clean
-
-MOZ_XPI_BUILD_COMMAND = make -C debian -f Makefile.combined all
-MOZ_XPI_CLEAN_COMMAND = make -C debian -f Makefile.combined clean-all
+override_dh_auto_install:
+	install-xpi bin/gnome-keyring-integration.xpi

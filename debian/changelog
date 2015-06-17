@@ -1,9 +1,28 @@
-mozilla-gnome-keyring (0.6.10-1) UNRELEASED; urgency=medium
+mozilla-gnome-keyring (0.9~20150531gitb0170724-1) UNRELEASED; urgency=medium
 
-  * New upstream release.
-  * Support iceweasel 27+.
+  * New upstream pre-release. (Closes: #788967, #788971)
 
- -- Ximin Luo <infinity0@pwned.gg>  Sun, 30 Mar 2014 16:19:11 +0100
+ -- Ximin Luo <infinity0@pwned.gg>  Wed, 17 Jun 2015 18:06:21 +0200
+
+mozilla-gnome-keyring (0.6.11-3) unstable; urgency=medium
+
+  * Build for iceweasel 31 and icedove 31. (Closes: #757933)
+
+ -- Ximin Luo <infinity0@pwned.gg>  Sat, 16 Aug 2014 12:01:35 +0100
+
+mozilla-gnome-keyring (0.6.11-2) unstable; urgency=medium
+
+  * Build for iceweasel 30 and icedove 30.
+  * Update to new iceweasel-dev, was xulrunner-dev. (Closes: #752839)
+
+ -- Ximin Luo <infinity0@pwned.gg>  Fri, 27 Jun 2014 17:24:41 +0100
+
+mozilla-gnome-keyring (0.6.11-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #749521)
+  * Build for iceweasel 29 and icedove 30.
+
+ -- Ximin Luo <infinity0@pwned.gg>  Sun, 01 Jun 2014 17:05:17 +0100
 
 mozilla-gnome-keyring (0.6.9-6) unstable; urgency=low
 

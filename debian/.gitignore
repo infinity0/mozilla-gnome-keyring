@@ -4,7 +4,4 @@
 /*.substvars
 
 # package-specific excludes
-/link-*
-/xpi-*
-/xpi
 /xul-ext-gnome-keyring
