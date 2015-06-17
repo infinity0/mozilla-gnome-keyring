@@ -1,3 +1,9 @@
+mozilla-gnome-keyring (0.9~20150531gitb0170724-1) UNRELEASED; urgency=medium
+
+  * New upstream pre-release. (Closes: #788967, #788971)
+
+ -- Ximin Luo <infinity0@pwned.gg>  Wed, 17 Jun 2015 18:06:21 +0200
+
 mozilla-gnome-keyring (0.6.11-3) unstable; urgency=medium
 
   * Build for iceweasel 31 and icedove 31. (Closes: #757933)

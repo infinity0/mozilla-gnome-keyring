@@ -7,15 +7,7 @@ gbp:
 .PHONY: gbp
 
 %:
-	dh $@ --with xul-ext --buildsystem=xul_ext
+	dh $@ --with xul-ext
 
-override_dh_auto_build:
-	make -C debian -f Makefile.combined all
-
-override_dh_auto_clean:
-	make -C debian -f Makefile.combined clean-all
-
-# temporary measure until #750100 is fixed
-override_dh_gencontrol:
-	sed -i -e '/^xpi:\(Depends\|Breaks\)/s/)/~)/g' debian/xul-ext-gnome-keyring.substvars
-	dh_gencontrol
+override_dh_auto_install:
+	install-xpi bin/gnome-keyring-integration.xpi
