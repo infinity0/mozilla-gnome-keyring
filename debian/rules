@@ -9,5 +9,8 @@ gbp:
 %:
 	dh $@ --with xul-ext
 
+override_dh_auto_build:
+	TZ=UTC dh_auto_build
+
 override_dh_auto_install:
 	install-xpi bin/gnome-keyring-integration.xpi
