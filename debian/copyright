@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: mozilla-gnome-keyring
-Upstream-Contact: Ximin Luo <infinity0@pwned.gg>
-Source: https://github.com/swick/moz-gnome-keyring-integration
+Upstream-Contact: Sebastian Wick <sebastian@sebastianwick.net>
+Source: https://github.com/swick/mozilla-gnome-keyring
 
 Files: *
 Copyright: 2014-2015 Sebastian Wick <sebastian@sebastianwick.net> 

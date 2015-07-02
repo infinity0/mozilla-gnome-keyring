@@ -2,8 +2,7 @@
 
 # clean build from git (including .orig.tar.gz if non-existent):
 gbp:
-	gbp buildpackage --git-upstream-branch=master --git-upstream-tree=branch --git-debian-branch=debian \
-	  --git-pbuilder '-I.*' '-i.git\|.cproject\|.project\|.settings'
+	gbp buildpackage --git-upstream-branch=master --git-upstream-tree=branch --git-debian-branch=debian --git-pbuilder
 .PHONY: gbp
 
 %:

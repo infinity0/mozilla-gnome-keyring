@@ -1,3 +1,3 @@
 version=3
-opts="filenamemangle=s/(?:.*\/)?(\d[\d\.]*)\.tar\.gz/mozilla-gnome-keyring-$1.tar.gz/" \
- https://github.com/infinity0/mozilla-gnome-keyring/tags (?:.*/)?(\d[\d\.]*)\.tar\.gz
+opts="filenamemangle=s/(?:.*\/)?v?(\d[\d\.]*)\.tar\.gz/mozilla-gnome-keyring-$1.tar.gz/,uversionmangle=s/^v?//" \
+ https://github.com/swick/mozilla-gnome-keyring/tags (?:.*/)?v?(\d[\d\.]*)\.tar\.gz
