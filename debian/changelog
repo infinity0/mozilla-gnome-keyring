@@ -1,8 +1,8 @@
-mozilla-gnome-keyring (0.10-1) UNRELEASED; urgency=medium
+mozilla-gnome-keyring (0.10-1) unstable; urgency=medium
 
   * New upstream release.
 
- -- Ximin Luo <infinity0@pwned.gg>  Thu, 02 Jul 2015 03:27:45 +0200
+ -- Ximin Luo <infinity0@pwned.gg>  Thu, 02 Jul 2015 03:49:43 +0200
 
 mozilla-gnome-keyring (0.6.11-3) unstable; urgency=medium
 
