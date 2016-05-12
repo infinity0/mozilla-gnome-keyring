@@ -5,9 +5,9 @@ Maintainer: Ximin Luo <infinity0@debian.org>
 Build-Depends: debhelper (>= 9),
                dpkg-dev (>= 1.16.1),
                mozilla-devscripts (>= 0.29),
-Standards-Version: 3.9.6
+Standards-Version: 3.9.8
 Homepage: https://github.com/swick/mozilla-gnome-keyring
-Vcs-Git: git://github.com/infinity0/mozilla-gnome-keyring.git -b debian
+Vcs-Git: https://github.com/infinity0/mozilla-gnome-keyring.git -b debian
 Vcs-Browser: https://github.com/infinity0/mozilla-gnome-keyring/tree/debian
 
 Package: xul-ext-gnome-keyring
