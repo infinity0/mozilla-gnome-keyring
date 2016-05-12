@@ -1,0 +1,20 @@
+Description: moz-sec-get.sh: correctly handle passwords with \
+ dash's echo will parse backslash-number as an octal character code
+Author: Ximin Luo <infinity0@pwned.gg>
+Bug: https://github.com/swick/mozilla-gnome-keyring/pull/40
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/moz-sec-get.sh
++++ b/moz-sec-get.sh
+@@ -11,9 +11,9 @@
+   || secret-tool lookup hostname "$host")
+ 
+ if [ -z "$DISPLAY" ]; then
+-	echo "$pass"
++	printf "%s\n" "$pass"
+ else
+-	echo "$pass" | xclip -selection clipboard
++	printf "%s" "$pass" | xclip -selection clipboard
+ 	{ sleep 16; echo "" | xclip -selection clipboard; } &
+ 	echo >&2 "copied to clipboard; will clear it after 16s"
+ fi
