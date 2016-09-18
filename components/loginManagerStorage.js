@@ -25,6 +25,8 @@ GnomeKeyringLoginManagerStorage.prototype = {
 	attributeUsername: "username",
 	attributeUsernameField: "usernameField",
 	attributeInfoMagic: "mozLoginInfoMagic",
+	keyringUpdated: true,
+	cachedItems: [],
 
 	get uiBusy() {
 		return false;
@@ -60,6 +62,7 @@ GnomeKeyringLoginManagerStorage.prototype = {
 	},
 	set keyringName(name) {
 		this._keyringName = name.length == 0 ? null : name;
+		this.keyringUpdated = true;
 	},
 
 	init: function() {
@@ -101,21 +104,24 @@ GnomeKeyringLoginManagerStorage.prototype = {
 
 		keyring.itemCreate(this.keyringName, keyring.Values.ItemType.GENERIC_SECRET,
 				   login.hostname, attr, login.password, true);
+		this.keyringUpdated = true;
 	},
 	removeLogin: function(login) {
 		this.tryUnlockKeyring();
 
-		var items = keyring.getItems(this.keyringName);
+		var items = this.getItems(this.keyringName);
 		for(var i=0; i<items.length; i++) {
 			if (items[i].attributes[this.attributeHostname] == login.hostname &&
 			    items[i].attributes[this.attributeFormSubmitURL] == login.formSubmitURL &&
-			    items[i].attributes[this.attributeHttpRealm] == login.httpRealm &&
+			    (login.httpRealm == null || items[i].attributes[this.attributeHttpRealm] == login.httpRealm) &&
 			    items[i].attributes[this.attributeUsername] == login.username &&
 			    items[i].attributes[this.attributeUsernameField] == login.usernameField &&
 			    items[i].attributes[this.attributePasswordField] == login.passwordField &&
 			    items[i].attributes[this.attributeInfoMagic] == "loginInfoMagicv1")
 				keyring.itemDelete(this.keyringName, items[i].id);
 		}
+
+		this.keyringUpdated = true;
 	},
 	modifyLogin: function(oldLogin, newLoginData) {
 		this.tryUnlockKeyring();
@@ -146,6 +152,8 @@ GnomeKeyringLoginManagerStorage.prototype = {
 		}
 		this.removeLogin(oldLogin);
 		this.addLogin(newLogin);
+
+		this.keyringUpdated = true;
 	},
 	getAllLogins: function(count) {
 		var logins = this.findLogins(count, null, null, null);
@@ -160,16 +168,18 @@ GnomeKeyringLoginManagerStorage.prototype = {
 	removeAllLogins: function() {
 		this.tryUnlockKeyring();
 
-		var items = keyring.getItems(this.keyringName);
+		var items = this.getItems(this.keyringName);
 		for(var i=0; i<items.length; i++) {
 			if (items[i].attributes[this.attributeInfoMagic] == "loginInfoMagicv1")
 				keyring.itemDelete(this.keyringName, items[i].id);
 		}
+
+		this.keyringUpdated = true;
 	},
 	getAllDisabledHosts: function(count) {
 		this.tryUnlockKeyring();
 
-		var items = keyring.getItems(this.keyringName);
+		var items = this.getItems(this.keyringName);
 		var hosts = [];
 		for(var i=0; i<items.length; i++) {
 			var item = items[i];
@@ -184,7 +194,7 @@ GnomeKeyringLoginManagerStorage.prototype = {
 	getLoginSavingEnabled: function(hostname) {
 		this.tryUnlockKeyring();
 
-		var items = keyring.getItems(this.keyringName);
+		var items = this.getItems(this.keyringName);
 		for(var i=0; i<items.length; i++) {
 			var item = items[i];
 			if(item.attributes[this.attributeDisabledHostMagic] ==
@@ -207,9 +217,10 @@ GnomeKeyringLoginManagerStorage.prototype = {
 			keyring.itemCreate(this.keyringName, keyring.Values.ItemType.NOTE,
 					"Mozilla disabled host (" + hostname + ")",
 					attr, "", true);
+			this.keyringUpdated = true;
 		}
 		else if(enabled && !isEnabled) {
-			var items = keyring.getItems(this.keyringName);
+			var items = this.getItems(this.keyringName);
 			for(var i=0; i<items.length; i++) {
 				var item = items[i];
 				if(item.attributes[this.attributeDisabledHostMagic] ==
@@ -217,6 +228,7 @@ GnomeKeyringLoginManagerStorage.prototype = {
 				   item.attributes[this.attributeDisabledHostName] ==
 				     hostname) {
 					keyring.itemDelete(this.keyringName, item.id);
+					this.keyringUpdated = true;
 				}
 			}
 		}
@@ -224,24 +236,17 @@ GnomeKeyringLoginManagerStorage.prototype = {
 	findLogins: function(count, hostname, formSubmitURL, httpRealm) {
 		this.tryUnlockKeyring();
 
-		var items = keyring.getItems(this.keyringName);
+		var items = this.getItems(this.keyringName);
 		var logins = [];
 		for(var i=0; i<items.length; i++) {
 			var item = items[i];
 			if(this.itemMatchesLogin(item, hostname, formSubmitURL, httpRealm)) {
-				/**
-				 * The HttpRealm must be either a non empty string or null
-				 */
-				var itemHttpRealm = item.attributes[this.attributeHttpRealm];
-				if(itemHttpRealm == "") {
-					itemHttpRealm = null;
-				}
-
 				var login = Cc["@mozilla.org/login-manager/loginInfo;1"]
 						.createInstance(Ci.nsILoginInfo);
 				login.init(item.attributes[this.attributeHostname],
 					   item.attributes[this.attributeFormSubmitURL],
-					   itemHttpRealm,
+					   /* The HttpRealm must be either a non empty string or null */
+					   item.attributes[this.attributeHttpRealm] == "" ? null : item.attributes[this.attributeHttpRealm],
 					   item.attributes[this.attributeUsername],
 					   item.secret,
 					   item.attributes[this.attributeUsernameField],
@@ -255,7 +260,7 @@ GnomeKeyringLoginManagerStorage.prototype = {
 	countLogins: function(aHostname, aFormSubmitURL, aHttpRealm) {
 		this.tryUnlockKeyring();
 
-		var items = keyring.getItems(this.keyringName);
+		var items = this.getItems(this.keyringName);
 		var count = 0;
 
 		for(var i=0; i<items.length; i++) {
@@ -284,6 +289,13 @@ GnomeKeyringLoginManagerStorage.prototype = {
 		} catch (e) {
 			this.log("Exception: " + e + " in " + e.stack);
 		}
+	},
+	getItems: function(keyringName) {
+		if (this.keyringUpdated) {
+			this.cachedItems = keyring.getItems(this.keyringName);
+			this.keyringUpdated = false;
+		}
+		return this.cachedItems;
 	}
 };
 
