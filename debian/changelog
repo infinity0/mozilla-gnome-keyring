@@ -1,3 +1,9 @@
+mozilla-gnome-keyring (0.11+git4-1) UNRELEASED; urgency=medium
+
+  * New upstream release and commits.
+
+ -- Ximin Luo <infinity0@debian.org>  Sun, 18 Sep 2016 14:51:47 +0200
+
 mozilla-gnome-keyring (0.10-2) unstable; urgency=medium
 
   * Rebuild against new mozilla-devscripts. (Closes: #819508)
