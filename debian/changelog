@@ -1,8 +1,8 @@
-mozilla-gnome-keyring (0.11+git4-2) UNRELEASED; urgency=medium
+mozilla-gnome-keyring (0.11+git4-2) unstable; urgency=medium
 
   * Remove maxVersion constraint. (Closes: #838546)
 
- -- Ximin Luo <infinity0@debian.org>  Thu, 22 Sep 2016 13:32:28 +0200
+ -- Ximin Luo <infinity0@debian.org>  Thu, 22 Sep 2016 13:34:26 +0200
 
 mozilla-gnome-keyring (0.11+git4-1) unstable; urgency=medium
 
