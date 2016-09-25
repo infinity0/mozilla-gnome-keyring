@@ -1,3 +1,9 @@
+mozilla-gnome-keyring (0.12-1) UNRELEASED; urgency=medium
+
+  * New upstream release. (Closes: #838546)
+
+ -- Ximin Luo <infinity0@debian.org>  Sun, 25 Sep 2016 12:51:47 +0200
+
 mozilla-gnome-keyring (0.11+git4-3) unstable; urgency=medium
 
   * Set maxVersion to 999. (Closes: #838746)
